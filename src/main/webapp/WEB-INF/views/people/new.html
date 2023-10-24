@@ -13,7 +13,7 @@
   <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error</div>
   <br/>
 
-  <label for="age">Введите год рождения: </label>
+  <label for="age">Введите возраст: </label>
   <input type="text" th:field="*{age}" id="age"/>
   <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">age error</div>
   <br/>

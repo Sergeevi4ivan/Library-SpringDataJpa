@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Person")
@@ -21,8 +22,8 @@ public class Person {
     @Column(name = "name")
     private String name;
 
-    @Min(value = 1900, message = "Год рождения должен быть больше, чем 1900")
-    @Digits(integer = 4, fraction = 0)
+    @Min(value = 10, message = "Год рождения должен быть больше, чем 10")
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "age")
     private int age;
 
@@ -37,6 +38,7 @@ public class Person {
 
     @OneToMany(mappedBy = "owner")
     private List<Book> books;
+
 
     public Person() {
 
@@ -96,5 +98,37 @@ public class Person {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "personId=" + personId +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+    //  equals hashCode нужны для сравнения значений в HashSet в классе PersonDAO
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Person person = (Person) o;
+
+        if (personId != person.personId) return false;
+        if (age != person.age) return false;
+        if (!Objects.equals(name, person.name)) return false;
+        return Objects.equals(createdAt, person.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = personId;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + age;
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
+        return result;
     }
 }

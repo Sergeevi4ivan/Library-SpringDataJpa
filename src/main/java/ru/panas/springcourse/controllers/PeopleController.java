@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.panas.springcourse.dao.PersonDAO;
 import ru.panas.springcourse.models.Book;
 import ru.panas.springcourse.models.Person;
 import ru.panas.springcourse.services.BookService;
@@ -20,18 +21,21 @@ public class PeopleController {
 
     private final PeopleService peopleService;
     private final BookService bookService;
+    private final PersonDAO personDAO; // для тестирования решения проблемы N + 1
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PeopleService peopleService, BookService bookService, PersonValidator personValidator) {
+    public PeopleController(PeopleService peopleService, BookService bookService, PersonDAO personDAO, PersonValidator personValidator) {
         this.peopleService = peopleService;
         this.bookService = bookService;
+        this.personDAO = personDAO;
         this.personValidator = personValidator;
     }
 
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", peopleService.findAll());
+//        personDAO.testNPlus1(); // для тестирования решения проблемы N + 1
         return "people/index";
     }
 
