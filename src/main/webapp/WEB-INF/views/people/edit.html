@@ -18,6 +18,11 @@
   <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">age error</div>
   <br/>
 
+  <label for="date_of_birth">Введите дату рождения (дд/мм/гггг): </label>
+  <input type="text" th:field="*{dateOfBirth}" id="date_of_birth"/>
+  <div style="color:red" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">dateOfBirth error</div>
+  <br/>
+
   <input type="submit" value="Редактировать!"/>
 </form>
 
