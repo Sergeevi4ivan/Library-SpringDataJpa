@@ -8,14 +8,17 @@
 
 <div th:each="book : ${books}">
   <a th:href="@{/books/{id}(id=${book.getBook_id()})}"
-     th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear_production()}">book</a>
+     th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearProduction()}">book</a>
 </div>
-
 
 <br/>
 <hr/>
 
 <a href="/books/new">Добавить книгу</a>
+
+<form th:method="GET" th:action="@{/books/search}">
+    <input type="submit" value="Поиск!"/>
+</form>
 
 </body>
 </html>

@@ -2,6 +2,8 @@ package ru.panas.springcourse.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +31,37 @@ public class BooksController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("books", bookService.findAll());
+
+        return "books/index";
+    }
+
+    @GetMapping(params = "sort")
+    public String index(@RequestParam("sort") Optional<Boolean> sort, Model model) {
+        if (sort.isPresent() && sort.get()) {
+            model.addAttribute("books", bookService.findAllSort("yearProduction"));
+        }
+        return "books/index";
+    }
+
+    @GetMapping(params = {"page", "booksPerPage"})
+    public String index(@RequestParam(value = "page") int page,
+                        @RequestParam(value = "booksPerPage") int booksPerPage,
+                        Model model) {
+
+            model.addAttribute("books", bookService.findAll(PageRequest.of(page, booksPerPage)));
+
+        return "books/index";
+    }
+    @GetMapping(params = {"page", "booksPerPage", "sort"})
+    public String index(@RequestParam(value = "page") int page,
+                        @RequestParam(value = "booksPerPage") int booksPerPage,
+                        @RequestParam(value = "sort") Optional<Boolean> sort,
+                        Model model) {
+
+        if (sort.isPresent() && sort.get()) {
+            model.addAttribute("books", bookService.findAll(PageRequest.of(page, booksPerPage, Sort.by("yearProduction"))));
+        }
+
         return "books/index";
     }
 
@@ -49,6 +82,15 @@ public class BooksController {
     @GetMapping("/new")
     public String newBook(@ModelAttribute("book") Book book) {
         return "books/new";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam(value = "title", required = false) String title,
+                         @ModelAttribute("book") Book book,
+                         Model model) {
+        model.addAttribute("books", bookService.findBooksByTitleContaining(title));
+
+        return "books/search";
     }
 
     @PostMapping()
@@ -96,4 +138,5 @@ public class BooksController {
         bookService.assign(id, selectedPerson);
         return "redirect:/books/" + id;
     }
+
 }

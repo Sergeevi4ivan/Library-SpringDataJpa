@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "Book")
 public class Book {
@@ -30,17 +32,23 @@ public class Book {
 
     @Min(value = 1500, message = "Год должен быть больше, чем 1500")
     @Column(name = "year_production")
-    private int year_production;
+    private int yearProduction;
 
+    @Column(name = "assign_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date assignAt;
+
+    @Transient
+    private Boolean isLate;
 
     public Book() {
 
     }
 
-    public Book(String title, String author, int year_production) {
+    public Book(String title, String author, int yearProduction) {
         this.title = title;
         this.author = author;
-        this.year_production = year_production;
+        this.yearProduction = yearProduction;
     }
 
     public int getBook_id() {
@@ -67,12 +75,12 @@ public class Book {
         this.author = author;
     }
 
-    public int getYear_production() {
-        return year_production;
+    public int getYearProduction() {
+        return yearProduction;
     }
 
-    public void setYear_production(int year_production) {
-        this.year_production = year_production;
+    public void setYearProduction(int year_production) {
+        this.yearProduction = year_production;
     }
 
     public Person getOwner() {
@@ -81,5 +89,30 @@ public class Book {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public Boolean getLate() {
+        return isLate;
+    }
+
+    public void setLate(Boolean late) {
+        isLate = late;
+    }
+
+    public Date getAssignAt() {
+        return assignAt;
+    }
+
+    public void setAssignAt(Date assignAt) {
+        this.assignAt = assignAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", yearProduction=" + yearProduction +
+                '}';
     }
 }

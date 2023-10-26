@@ -17,7 +17,13 @@
     <b>Книги: </b>
     <br/>
     <table th:each="book : ${books}">
-        <tr th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear_production()}">book</tr>
+
+        <tr th:style="${book.getLate()} ? 'color:red' : '_'">
+
+            <td th:text="${book.getTitle()}"></td>
+            <td th:text="${book.getAuthor()}"></td>
+            <td th:text="${book.getYearProduction()}"></td>
+        </tr>
     </table>
     <hr/>
 </div>

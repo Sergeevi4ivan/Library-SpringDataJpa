@@ -19,8 +19,8 @@
   <br/>
 
   <label for="year_production">Введите год: </label>
-  <input type="text" th:field="*{year_production}" id="year_production"/>
-  <div style="color:red" th:if="${#fields.hasErrors('year_production')}" th:errors="*{year_production}">year_production error</div>
+  <input type="text" th:field="*{yearProduction}" id="year_production"/>
+  <div style="color:red" th:if="${#fields.hasErrors('year_production')}" th:errors="*{yearProduction}">year_production error</div>
   <br/>
   <input type="submit" value="Создать!"/>
 </form>

@@ -5,9 +5,10 @@
     <title>Book</title>
 </head>
 <body>
-<p th:utext="${book.getTitle()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear_production()}">VALUE</p>
+<p th:utext="${book.getTitle()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYearProduction()}">VALUE</p>
 
 <div th:if="${owner}">
+
     <span>Книга сейчас у: </span> <span th:text="${owner.getName()}">Person name</span>
 
     <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getBook_id()})}" >
@@ -17,6 +18,7 @@
 
 <div th:if="${people}">
     <span>Эта книга свободна. Кому назначить её? </span>
+
     <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getBook_id()})}">
         <label for="person">Выберите человека</label>
         <select th:object="${person}" th:field="*{personId}" id="person">
@@ -33,6 +35,7 @@
 <form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getBook_id()})}">
   <input type="submit" value="Редактировать!"/>
 </form>
+
 <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getBook_id()})}">
   <input type="submit" value="Удалить!"/>
 </form>
